@@ -1,0 +1,42 @@
+livekit-agents
+livekit-plugins-openai
+livekit-plugins-silero
+livekit-plugins-google
+livekit-plugins-noise-cancellation
+mem0ai
+duckduckgo-search
+langchain_community
+requests
+python-dotenv
+livekit-plugins-google
+livekit-plugins-bey
+
+
+# AI and LLM
+anthropic>=0.40.0
+openai>=1.0.0
+
+# Web framework
+fastapi
+uvicorn
+python-multipart
+
+
+# Data handling
+pydantic
+pydantic-settings
+
+# Async support
+aiohttp
+asyncio
+
+# Logging
+python-json-logger
+
+# Optional: Database support (if you want to add MongoDB)
+# motor>=3.3.0
+# pymongo>=4.6.0
+
+# Optional: Cloud storage (if you want to add S3 support)
+# boto3>=1.34.0
+# aioboto3>=12.3.0
