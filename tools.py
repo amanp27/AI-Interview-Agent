@@ -14,6 +14,8 @@ class InterviewTools:
         self.questions_asked = []
         self.start_time = datetime.now()
         self.candidate_info = {}
+        self.warning_count = 0  # Track warnings for rude behavior
+        self.interview_terminated = False
     
     def record_note(self, note: str, category: str = "general") -> dict:
         """
@@ -79,6 +81,59 @@ class InterviewTools:
         """
         self.candidate_info[key] = value
         logger.info(f"Stored candidate info - {key}: {value}")
+    
+    def check_inappropriate_behavior(self, message: str) -> tuple[bool, str]:
+        """
+        Check if candidate's message contains inappropriate behavior
+        
+        Args:
+            message: Candidate's message
+            
+        Returns:
+            (is_inappropriate, severity) where severity is 'warning' or 'terminate'
+        """
+        message_lower = message.lower()
+        
+        # Severe - immediate termination
+        severe_keywords = [
+            'fuck', 'shit', 'bitch', 'ass', 'damn',
+            'stupid interviewer', 'waste of time',
+            'this is bullshit', 'you suck'
+        ]
+        
+        # Warning - track and terminate on repeat
+        warning_keywords = [
+            'irritating', 'annoying', 'boring',
+            "don't know anything", "i don't care",
+            'whatever', 'this is dumb'
+        ]
+        
+        for keyword in severe_keywords:
+            if keyword in message_lower:
+                self.interview_terminated = True
+                logger.warning(f"Severe inappropriate behavior detected: {keyword}")
+                return (True, 'terminate')
+        
+        for keyword in warning_keywords:
+            if keyword in message_lower:
+                self.warning_count += 1
+                logger.warning(f"Warning behavior detected: {keyword} (count: {self.warning_count})")
+                
+                if self.warning_count >= 2:
+                    self.interview_terminated = True
+                    return (True, 'terminate')
+                return (True, 'warning')
+        
+        return (False, 'none')
+    
+    def issue_warning(self) -> str:
+        """Issue a warning to the candidate"""
+        return "Let's keep this professional."
+    
+    def terminate_interview(self) -> str:
+        """Terminate the interview due to inappropriate behavior"""
+        self.interview_terminated = True
+        return "I don't think we can continue this interview. Thank you."
     
     def get_notes_summary(self) -> str:
         """Get a formatted summary of all notes"""

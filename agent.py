@@ -1,5 +1,4 @@
 from dotenv import load_dotenv
-
 import os
 
 from livekit import agents, rtc
@@ -10,18 +9,39 @@ from livekit.plugins import (
     bey
 )
 
-from prompts import AGENT_INSTRUCTION, SESSION_INSTRUCTION
+from prompts import (
+    SYSTEM_INSTRUCTION, 
+    AGENT_INSTRUCTION, 
+    SESSION_INSTRUCTION,
+    INTERVIEW_OBJECTIVE,
+    QUESTION_POLICY,
+    EVALUATION_GUIDELINES,
+    CLOSING_INSTRUCTION
+)
 from tools import InterviewTools
 
 load_dotenv(".env")
 
 
 class InterviewAssistant(Agent):
-    """AI Interview Assistant Agent"""
+    """AI Interview Assistant Agent - SIMA from Tacktile System"""
     
     def __init__(self) -> None:
-        super().__init__(instructions=AGENT_INSTRUCTION)
-        # Store tools separately, not as self.tools
+        # Combine all relevant instructions for the agent's persistent behavior
+        full_instructions = f"""{SYSTEM_INSTRUCTION}
+
+{AGENT_INSTRUCTION}
+
+{INTERVIEW_OBJECTIVE}
+
+{QUESTION_POLICY}
+
+{EVALUATION_GUIDELINES}
+
+{CLOSING_INSTRUCTION}"""
+        
+        super().__init__(instructions=full_instructions)
+        # Store tools separately
         self.interview_tools = InterviewTools()
 
 
@@ -38,14 +58,9 @@ async def interview_agent(ctx: agents.JobContext):
     # Initialize the session with OpenAI Realtime model
     session = AgentSession(
         llm=openai.realtime.RealtimeModel(
-            voice="coral",  # You can change to: alloy, echo, fable, onyx, nova, shimmer
-            temperature=0.8
+            voice="coral",  # Professional voice
+            temperature=0.6,  # Lower for more consistent, concise responses
         )
-    )
-
-    avatar = bey.AvatarSession(
-        avatar_id = os.getenv("BEY_AVATAR_ID"),
-        api_key = os.getenv("BEY_API_KEY")
     )
     
     # Start the session with room configuration
@@ -61,7 +76,30 @@ async def interview_agent(ctx: agents.JobContext):
         ),
     )
     
-    # Generate initial greeting
+    # Initialize Beyond Presence avatar AFTER session starts (optional)
+    try:
+        avatar_id = os.getenv("BEY_AVATAR_ID")
+        avatar_key = os.getenv("BEY_API_KEY")
+        
+        if avatar_id and avatar_key:
+            # Create avatar session
+            avatar = bey.AvatarSession(
+                avatar_id=avatar_id,
+                api_key=avatar_key,
+            )
+            # Start avatar with both agent_session and room
+            await avatar.start(
+                agent_session=session,
+                room=ctx.room
+            )
+            print("✅ Beyond Presence avatar connected successfully")
+        else:
+            print("⚠️ Beyond Presence avatar not configured - running without avatar")
+            print("   Add BEY_AVATAR_ID and BEY_API_KEY to .env file to enable avatar")
+    except Exception as e:
+        print(f"⚠️ Could not initialize avatar: {e}")
+    
+    # Generate initial greeting using SESSION_INSTRUCTION
     await session.generate_reply(
         instructions=SESSION_INSTRUCTION
     )
