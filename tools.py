@@ -1,6 +1,6 @@
 import logging
 from datetime import datetime
-from typing import Optional
+from typing import Optional, List, Dict
 
 logger = logging.getLogger("interview-tools")
 
@@ -16,6 +16,9 @@ class InterviewTools:
         self.candidate_info = {}
         self.warning_count = 0  # Track warnings for rude behavior
         self.interview_terminated = False
+        self.transcript = []  # Store conversation transcript
+        self.candidate_name = None
+        self.position = None
     
     def record_note(self, note: str, category: str = "general") -> dict:
         """

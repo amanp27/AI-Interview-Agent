@@ -6,7 +6,6 @@ from livekit.agents import AgentServer, AgentSession, Agent, room_io
 from livekit.plugins import (
     openai,
     noise_cancellation,
-    bey
 )
 
 from prompts import (
@@ -19,6 +18,7 @@ from prompts import (
     CLOSING_INSTRUCTION
 )
 from tools import InterviewTools
+from evaluation import InterviewEvaluator
 
 load_dotenv(".env")
 
@@ -63,6 +63,17 @@ async def interview_agent(ctx: agents.JobContext):
         )
     )
     
+    # Setup event handlers for transcript capture
+    @session.on("agent_speech")
+    def on_agent_speech(text: str):
+        """Capture agent's speech to transcript"""
+        assistant.interview_tools.add_to_transcript("interviewer", text)
+    
+    @session.on("user_speech") 
+    def on_user_speech(text: str):
+        """Capture candidate's speech to transcript"""
+        assistant.interview_tools.add_to_transcript("candidate", text)
+    
     # Start the session with room configuration
     await session.start(
         room=ctx.room,
@@ -76,33 +87,68 @@ async def interview_agent(ctx: agents.JobContext):
         ),
     )
     
-    # Initialize Beyond Presence avatar AFTER session starts (optional)
-    try:
-        avatar_id = os.getenv("BEY_AVATAR_ID")
-        avatar_key = os.getenv("BEY_API_KEY")
-        
-        if avatar_id and avatar_key:
-            # Create avatar session
-            avatar = bey.AvatarSession(
-                avatar_id=avatar_id,
-                api_key=avatar_key,
-            )
-            # Start avatar with both agent_session and room
-            await avatar.start(
-                agent_session=session,
-                room=ctx.room
-            )
-            print("✅ Beyond Presence avatar connected successfully")
-        else:
-            print("⚠️ Beyond Presence avatar not configured - running without avatar")
-            print("   Add BEY_AVATAR_ID and BEY_API_KEY to .env file to enable avatar")
-    except Exception as e:
-        print(f"⚠️ Could not initialize avatar: {e}")
+    print("✅ Interview session started - transcript capture enabled")
     
     # Generate initial greeting using SESSION_INSTRUCTION
     await session.generate_reply(
         instructions=SESSION_INSTRUCTION
     )
+    
+    # Monitor for interview completion
+    try:
+        # Wait for session to complete
+        await session.wait_for_completion()
+    except Exception as e:
+        print(f"Session ended: {e}")
+    finally:
+        # Generate evaluation after interview concludes
+        await generate_post_interview_evaluation(assistant.interview_tools)
+
+
+async def generate_post_interview_evaluation(interview_tools: InterviewTools):
+    """
+    Generate comprehensive evaluation after interview concludes
+    
+    Args:
+        interview_tools: The InterviewTools instance with all interview data
+    """
+    try:
+        print("\n" + "="*70)
+        print("🔍 Generating Interview Evaluation...")
+        print("="*70 + "\n")
+        
+        # Get all interview data
+        interview_data = interview_tools.get_interview_data_for_evaluation()
+        
+        # Check if we have enough data
+        if not interview_data["transcript"] or interview_data["transcript"] == "No transcript available.":
+            print("⚠️  Warning: No transcript captured. Evaluation will be based on notes only.")
+        
+        # Create evaluator and run assessment
+        evaluator = InterviewEvaluator()
+        evaluation = await evaluator.evaluate_interview(
+            candidate_name=interview_data["candidate_name"],
+            position=interview_data["position"],
+            transcript=interview_data["transcript"],
+            interview_notes=interview_data["interview_notes"],
+            duration_minutes=interview_data["duration_minutes"],
+            candidate_info=interview_data["candidate_info"]
+        )
+        
+        # Print summary report
+        summary_report = evaluator.generate_summary_report(evaluation)
+        print(summary_report)
+        
+        # Print file location
+        print(f"\n✅ Full evaluation saved to: {evaluation['metadata']['saved_to']}")
+        print(f"📊 Overall Recommendation: {evaluation['recommendation']['decision']}")
+        print(f"📈 Role Fit: {evaluation['recommendation']['role_fit_percentage']}%")
+        print("\n" + "="*70 + "\n")
+        
+    except Exception as e:
+        print(f"\n❌ Error generating evaluation: {e}")
+        import traceback
+        traceback.print_exc()
 
 
 if __name__ == "__main__":
