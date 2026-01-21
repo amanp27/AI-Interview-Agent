@@ -138,6 +138,97 @@ class InterviewTools:
         self.interview_terminated = True
         return "I don't think we can continue this interview. Thank you."
     
+    def add_to_transcript(self, speaker: str, message: str) -> None:
+        """
+        Add a message to the interview transcript
+        
+        Args:
+            speaker: 'interviewer' or 'candidate'
+            message: The message content
+        """
+        self.transcript.append({
+            "timestamp": datetime.now().isoformat(),
+            "speaker": speaker,
+            "message": message
+        })
+        
+        # Auto-detect candidate name from their first response
+        if speaker == "candidate" and not self.candidate_name and len(self.transcript) <= 3:
+            self.auto_detect_candidate_name(message)
+    
+    def set_candidate_details(self, name: str = None, position: str = None) -> None:
+        """Set candidate name and position for evaluation"""
+        if name:
+            self.candidate_name = name
+            self.candidate_info['name'] = name
+            logger.info(f"Candidate name set: {name}")
+        if position:
+            self.position = position
+            self.candidate_info['position'] = position
+            logger.info(f"Position set: {position}")
+    
+    def auto_detect_candidate_name(self, text: str) -> None:
+        """Try to auto-detect candidate name from their introduction"""
+        text_lower = text.lower()
+        
+        # Common patterns
+        patterns = [
+            "my name is ",
+            "i'm ",
+            "i am ",
+            "this is ",
+            "call me "
+        ]
+        
+        for pattern in patterns:
+            if pattern in text_lower:
+                parts = text_lower.split(pattern)
+                if len(parts) > 1:
+                    # Get the name part
+                    name_part = parts[1].strip()
+                    # Take first word as first name
+                    words = name_part.split()
+                    if words:
+                        # Capitalize properly
+                        name = " ".join(word.capitalize() for word in words[:2])  # First and last name
+                        self.set_candidate_details(name=name)
+                        return
+    
+    def get_full_transcript(self) -> str:
+        """Get formatted transcript as a single string"""
+        if not self.transcript:
+            return "No transcript available."
+        
+        formatted = []
+        for entry in self.transcript:
+            speaker = entry['speaker'].capitalize()
+            message = entry['message']
+            formatted.append(f"{speaker}: {message}")
+        
+        return "\n\n".join(formatted)
+    
+    def get_interview_data_for_evaluation(self) -> Dict:
+        """
+        Prepare all interview data for evaluation
+        
+        Returns:
+            Dictionary with all data needed for evaluation
+        """
+        duration = datetime.now() - self.start_time
+        duration_minutes = int(duration.total_seconds() / 60)
+        
+        return {
+            "candidate_name": self.candidate_name or "Unknown Candidate",
+            "position": self.position or "Unknown Position",
+            "transcript": self.get_full_transcript(),
+            "interview_notes": self.candidate_notes,
+            "duration_minutes": duration_minutes,
+            "candidate_info": self.candidate_info,
+            "questions_asked_count": len(self.questions_asked),
+            "interview_terminated": self.interview_terminated,
+            "warning_count": self.warning_count
+        }
+    
     def get_notes_summary(self) -> str:
         """Get a formatted summary of all notes"""
         if not self.candidate_notes:
