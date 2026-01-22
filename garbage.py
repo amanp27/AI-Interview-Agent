@@ -67,19 +67,12 @@ async def interview_agent(ctx: agents.JobContext):
     print(f"   Company: {config['company']}")
     print(f"   Key Skills: {', '.join(config['key_skills'])}\n")
     
-    # STT with transcription enabled (for observability)
-    stt = openai.STT(
-        model="gpt-4o-transcribe",
-        language="en"
-    )
-    
     # Initialize the session with OpenAI Realtime model
     session = AgentSession(
         llm=openai.realtime.RealtimeModel(
             voice="coral",
             temperature=0.6,
         ),
-        stt=stt,  # Add STT for transcript capture
     )
     
     # Event handler to capture conversation items
@@ -106,81 +99,64 @@ async def interview_agent(ctx: agents.JobContext):
                     # Map role to speaker
                     speaker = "candidate" if role == "user" else "interviewer"
                     assistant.interview_tools.add_to_transcript(speaker, text)
+                    print(f"📝 Captured: {speaker[:4]}... ({len(text)} chars)")
                     
         except Exception as e:
-            print(f"Error capturing conversation item: {e}")
+            print(f"⚠️ Error capturing conversation: {e}")
     
-    try:
-        # Start the session with room configuration
-        await session.start(
-            room=ctx.room,
-            agent=assistant,
-            room_options=room_io.RoomOptions(
-                audio_input=room_io.AudioInputOptions(
-                    noise_cancellation=lambda params: noise_cancellation.BVCTelephony() 
-                    if params.participant.kind == rtc.ParticipantKind.PARTICIPANT_KIND_SIP 
-                    else noise_cancellation.BVC(),
-                ),
+    # Event handler for when session ends (must be synchronous)
+    @session.on("session_end")
+    def on_session_end():
+        """Handle session end and generate evaluation"""
+        print("\n🔚 Session ended - generating evaluation...")
+        # Use asyncio.create_task for async operations
+        import asyncio
+        asyncio.create_task(generate_post_interview_evaluation(assistant.interview_tools))
+    
+    # Start the session with room configuration
+    await session.start(
+        room=ctx.room,
+        agent=assistant,
+        room_options=room_io.RoomOptions(
+            audio_input=room_io.AudioInputOptions(
+                noise_cancellation=lambda params: noise_cancellation.BVCTelephony() 
+                if params.participant.kind == rtc.ParticipantKind.PARTICIPANT_KIND_SIP 
+                else noise_cancellation.BVC(),
             ),
-        )
-        
-        print("✅ Interview session started (Observability + Transcription enabled)")
-        
-        # Generate initial greeting using SESSION_INSTRUCTION
-        await session.generate_reply(
-            instructions=SESSION_INSTRUCTION
-        )
-        
-        # Wait for session to complete
-        await session.wait_for_completion()
-        
-    except Exception as e:
-        print(f"❌ Session error: {e}")
-        
-    finally:
-        # Generate evaluation after interview concludes
-        await generate_post_interview_evaluation(assistant.interview_tools, session)
-        
-        # Close session so Insights upload
-        await session.close()
-        print("🛑 Session closed cleanly (Insights uploaded)")
+        ),
+    )
+    
+    print("✅ Interview session started (Observability + Transcription enabled)")
+    
+    # Generate initial greeting using SESSION_INSTRUCTION
+    await session.generate_reply(
+        instructions=SESSION_INSTRUCTION
+    )
 
 
-async def generate_post_interview_evaluation(interview_tools: InterviewTools, session: AgentSession):
+async def generate_post_interview_evaluation(interview_tools: InterviewTools):
     """
     Generate comprehensive evaluation after interview concludes
     
     Args:
         interview_tools: The InterviewTools instance with all interview data
-        session: The AgentSession to extract additional data from
     """
     try:
         print("\n" + "="*70)
         print("🔍 Generating Interview Evaluation...")
         print("="*70 + "\n")
         
-        # Extract candidate name from conversation if available
-        if session.history and len(session.history) > 1:
-            # Try to extract name from first user response
-            for item in session.history:
-                if hasattr(item, 'role') and item.role == 'user':
-                    # Extract text from first user message
-                    if hasattr(item, 'content'):
-                        content = item.content
-                        if isinstance(content, str) and "my name is" in content.lower():
-                            # Simple name extraction
-                            parts = content.lower().split("my name is")
-                            if len(parts) > 1:
-                                name = parts[1].strip().split()[0].capitalize()
-                                interview_tools.set_candidate_details(name=name)
-                                break
-        
         # Get all interview data
         interview_data = interview_tools.get_interview_data_for_evaluation()
         
         # Check if we have enough data
-        if not interview_data["transcript"] or interview_data["transcript"] == "No transcript available.":
-            print("⚠️  Warning: Limited transcript data. Evaluation will be based on available notes.")
+        transcript_length = len(interview_tools.transcript)
+        if transcript_length == 0:
+            print("⚠️  No conversation captured - Session ended too early")
+            print("    Skipping evaluation generation.")
+            return
+        
+        print(f"✅ Captured {transcript_length} conversation turns")
         
         # Create evaluator and run assessment
         evaluator = InterviewEvaluator()

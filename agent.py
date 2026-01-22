@@ -104,14 +104,20 @@ async def interview_agent(ctx: agents.JobContext):
         except Exception as e:
             print(f"⚠️ Error capturing conversation: {e}")
     
-    # Event handler for when session ends (must be synchronous)
-    @session.on("session_end")
-    def on_session_end():
-        """Handle session end and generate evaluation"""
-        print("\n🔚 Session ended - generating evaluation...")
-        # Use asyncio.create_task for async operations
-        import asyncio
-        asyncio.create_task(generate_post_interview_evaluation(assistant.interview_tools))
+    # Track if evaluation has been generated
+    evaluation_generated = False
+    
+    # Room disconnect handler - THIS is what fires when user leaves
+    @ctx.room.on("participant_disconnected")
+    def on_participant_disconnected(participant):
+        """Handle participant disconnect"""
+        nonlocal evaluation_generated
+        if not evaluation_generated and participant.kind == rtc.ParticipantKind.PARTICIPANT_KIND_STANDARD:
+            print(f"\n👋 Participant {participant.identity} disconnected")
+            evaluation_generated = True
+            # Schedule evaluation
+            import asyncio
+            asyncio.create_task(generate_post_interview_evaluation(assistant.interview_tools))
     
     # Start the session with room configuration
     await session.start(
