@@ -1,0 +1,106 @@
+{
+  "metadata": {
+    "candidate_name": "Amar",
+    "position": "AI Developer",
+    "interview_date": "2026-01-22T11:32:08.154440",
+    "duration_minutes": 7,
+    "evaluator": "SIMA - AI Interview Assistant",
+    "evaluation_timestamp": "2026-01-22T11:32:08.154460"
+  },
+  "candidate_info": {
+    "name": "Amar",
+    "position": "AI Developer",
+    "source": "LiveKit Chat History JSON"
+  },
+  "overall_assessment": {
+    "summary": "Amar demonstrated some experience in AI development but struggled with technical depth and clarity in communication. The interview revealed gaps in specific technical knowledge and problem-solving approaches.",
+    "hire_recommendation": "No Hire",
+    "confidence_level": "High",
+    "reasoning": "The candidate lacks the necessary technical expertise and problem-solving skills required for the AI Developer position."
+  },
+  "detailed_evaluation": {
+    "technical_skills": {
+      "rating": 3,
+      "assessment": "Amar showed basic understanding of AI development but lacked depth in key technical areas such as model optimization and deployment.",
+      "evidence": [
+        "Did not know how to optimize a Python ML model for inference speed",
+        "Could not explain how to deploy a large language model using an API"
+      ]
+    },
+    "problem_solving": {
+      "rating": 4,
+      "assessment": "The candidate's problem-solving skills were limited, with an inability to articulate solutions to common AI development challenges.",
+      "evidence": [
+        "Struggled to explain how to automate JSON file handling",
+        "Could not address model prediction drift effectively"
+      ]
+    },
+    "communication": {
+      "rating": 4,
+      "assessment": "Communication was unclear and lacked precision, with difficulty in explaining past projects and technical concepts.",
+      "evidence": [
+        "Vague description of project contributions",
+        "Difficulty in providing specific examples or explanations"
+      ]
+    },
+    "experience_relevance": {
+      "rating": 5,
+      "assessment": "Amar has some relevant experience but it appears limited and not well-aligned with the requirements of the position.",
+      "evidence": [
+        "15 months of experience as an AI developer",
+        "Worked on a project involving real-time conversations"
+      ]
+    },
+    "cultural_fit": {
+      "rating": 5,
+      "assessment": "Cultural fit is uncertain due to limited information on adaptability and teamwork skills.",
+      "evidence": [
+        "Handled a project personally but no mention of collaboration or teamwork"
+      ]
+    }
+  },
+  "ratings": {
+    "overall_score": 4,
+    "technical_competency": 3,
+    "soft_skills": 4,
+    "experience_match": 5,
+    "growth_potential": 4
+  },
+  "strengths": [
+    "Experience with real-time conversation systems",
+    "Familiarity with WebRTC and OpenAI LLMs",
+    "Handled a project independently"
+  ],
+  "weaknesses": [
+    "Lack of knowledge in model optimization and deployment",
+    "Inability to articulate problem-solving approaches",
+    "Poor communication of technical details"
+  ],
+  "red_flags": [
+    "Inability to answer multiple technical questions",
+    "Lack of preparation for key areas of the role"
+  ],
+  "key_highlights": [
+    "Experience with integrating systems for hiring processes",
+    "Self-hosting WebRTC server",
+    "Handling data pipelines and flowcharts"
+  ],
+  "recommendation": {
+    "decision": "No Hire",
+    "next_steps": "Consider candidates with stronger technical backgrounds and better communication skills.",
+    "concerns_to_address": [
+      "Technical depth in AI development",
+      "Ability to solve complex problems"
+    ],
+    "role_fit_percentage": 40
+  },
+  "feedback_for_candidate": "Amar, while you have some experience in AI development, it would be beneficial to deepen your technical knowledge, particularly in areas like model optimization and deployment. Enhancing your problem-solving skills and being able to clearly articulate your contributions and technical processes will also be crucial. Consider preparing more thoroughly for interviews by reviewing common technical questions and practicing clear communication of your past projects and experiences.",
+  "interview_notes": [
+    {
+      "category": "general",
+      "note": "Interview conducted via LiveKit - 56 conversation turns",
+      "stage": "summary"
+    }
+  ],
+  "transcript_summary": "The interview focused on Amar's experience and technical skills as an AI Developer. While Amar has some experience with real-time conversation systems, there were significant gaps in technical knowledge and problem-solving abilities. The candidate struggled with specific technical questions and had difficulty communicating project details clearly."
+}

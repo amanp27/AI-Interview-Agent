@@ -1,0 +1,757 @@
+{
+  "items": [
+    {
+      "id": "item_2bab71efa06e",
+      "type": "agent_handoff",
+      "new_agent_id": "interview_assistant",
+      "created_at": 1769059508.401486
+    },
+    {
+      "id": "item_D0hTqWtwcZ8Im67pmwDCx",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        "Hello, I am your Interview Assistant SIMA from Tacktile System. Let's begin - tell me about yourself and your background."
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {
+        "started_speaking_at": 1769059510.8329575,
+        "stopped_speaking_at": 1769059518.4856997
+      },
+      "created_at": 1769059510.8329575
+    },
+    {
+      "id": "item_D0hUAdZNyld9gNNOchTzU",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        "Got it. Tell me about your most relevant project. What specifically did you build?"
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {
+        "started_speaking_at": 1769059530.809393,
+        "stopped_speaking_at": 1769059536.684754
+      },
+      "created_at": 1769059530.809393
+    },
+    {
+      "id": "item_D0hU5Xx7MOaGrejodqAdO",
+      "type": "message",
+      "role": "user",
+      "content": [
+        "My name is Amar and I am an AI developer. Talking about my experience, I have 15 months of experience working as an AI developer."
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {},
+      "created_at": 1769059531.342984
+    },
+    {
+      "id": "item_D0hUMzfubL9zOt68mX8Ab",
+      "type": "message",
+      "role": "user",
+      "content": [
+        "So recently I have built integrated whatever systems for my organization that was help to hire the particular candidates within the organization."
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {},
+      "created_at": 1769059547.0428557
+    },
+    {
+      "id": "item_D0hUTqe33zZec93TpnAu4",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        "What exactly did you build in that project? Be specific."
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {
+        "started_speaking_at": 1769059550.473923,
+        "stopped_speaking_at": 1769059554.2790356
+      },
+      "created_at": 1769059550.473923
+    },
+    {
+      "id": "item_D0hUSlQEDxycyb2J6mJqQ",
+      "type": "message",
+      "role": "user",
+      "content": [
+        "and that helps for this former"
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {},
+      "created_at": 1769059550.9184246
+    },
+    {
+      "id": "item_D0hUcjt31SWeISTaBfcWC",
+      "type": "message",
+      "role": "user",
+      "content": [
+        "Basically, the project was all about the live conversation, real-time conversation between the user and the assistant."
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {},
+      "created_at": 1769059563.397623
+    },
+    {
+      "id": "item_D0hUkrzBiH5dubhUWd0xI",
+      "type": "message",
+      "role": "user",
+      "content": [
+        "This project was to hire the candidate from the organization and I use LifeSaver as a web artist LifeSaver."
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {},
+      "created_at": 1769059570.94189
+    },
+    {
+      "id": "item_D0hUoHZTwpgFoqRo6mzJY",
+      "type": "message",
+      "role": "user",
+      "content": [
+        "Real-time clinical conversation."
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {},
+      "created_at": 1769059573.7502654
+    },
+    {
+      "id": "item_D0hUq3RMNAZ1gBIj9vitL",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        "What was your specific contribution in that project?"
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {
+        "started_speaking_at": 1769059573.772459,
+        "stopped_speaking_at": 1769059577.1779943
+      },
+      "created_at": 1769059573.772459
+    },
+    {
+      "id": "item_D0hV2kOy8bZc8WPfFpfBW",
+      "type": "message",
+      "role": "user",
+      "content": [
+        "So basically, the major contribution of myself was to handle the entire project personally, and I built the entire project."
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {},
+      "created_at": 1769059587.321611
+    },
+    {
+      "id": "item_D0hV476hcUoiKdrvCl2nT",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        "I see."
+      ],
+      "interrupted": true,
+      "extra": {},
+      "metrics": {
+        "started_speaking_at": 1769059587.5405724,
+        "stopped_speaking_at": 1769059587.5734339
+      },
+      "created_at": 1769059587.5405724
+    },
+    {
+      "id": "item_D0hV5DajCCi3uagbftro7",
+      "type": "message",
+      "role": "user",
+      "content": [
+        "including from data flow, data pipelines, and the flowcharts from scratch by myself."
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {},
+      "created_at": 1769059592.564091
+    },
+    {
+      "id": "item_D0hVALt3EQ5LhAmzlsVP1",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        "Which exact technologies did you use?"
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {
+        "started_speaking_at": 1769059593.0170937,
+        "stopped_speaking_at": 1769059596.7685847
+      },
+      "created_at": 1769059593.0170937
+    },
+    {
+      "id": "item_D0hVFHXBthZkHVpL48H4U",
+      "type": "message",
+      "role": "user",
+      "content": [
+        "So for the real-time conversation, I used WebRTC server from lightweight that was open source."
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {},
+      "created_at": 1769059604.1179085
+    },
+    {
+      "id": "item_D0hVVf7nH9yllxE0bHP2N",
+      "type": "message",
+      "role": "user",
+      "content": [
+        "And I self-hosted it on the webless platform and I used OpenAI LLMs and transcript the communications between the users."
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {},
+      "created_at": 1769059619.5875194
+    },
+    {
+      "id": "item_D0hVaH3DfM9ggoTqa4W10",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        "What problems did you solve during that implementation?"
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {
+        "started_speaking_at": 1769059619.5880697,
+        "stopped_speaking_at": 1769059623.0398219
+      },
+      "created_at": 1769059619.5880697
+    },
+    {
+      "id": "item_D0hW6ACoUKzIEzDg8ZDP7",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        "I see. How exactly did you fix that data pipeline issue?"
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {
+        "started_speaking_at": 1769059651.2825334,
+        "stopped_speaking_at": 1769059655.3845346
+      },
+      "created_at": 1769059651.2825334
+    },
+    {
+      "id": "item_D0hW2syO1n4LkajiwIjso",
+      "type": "message",
+      "role": "user",
+      "content": [
+        "The major problem was that was to evaluate the score and the feedback of the candidate. The data pipeline was complex that the JSON format, JSON file that was downloaded from the user was not traveling through the evaluation. So I made sure that the data pipeline was to ensure the accuracy and"
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {},
+      "created_at": 1769059652.4355414
+    },
+    {
+      "id": "item_D0hWJSZR3r2tb3jSOt4j1",
+      "type": "message",
+      "role": "user",
+      "content": [
+        "For that I used a different architecture and data flow."
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {},
+      "created_at": 1769059665.722904
+    },
+    {
+      "id": "item_D0hWMVoG74ffS23Dl5RiZ",
+      "type": "message",
+      "role": "user",
+      "content": [
+        "So I use the double agent system."
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {},
+      "created_at": 1769059669.643053
+    },
+    {
+      "id": "item_D0hWP3Gtk0Z5ssVA1nVAj",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        "I need"
+      ],
+      "interrupted": true,
+      "extra": {},
+      "metrics": {
+        "started_speaking_at": 1769059669.9424472,
+        "stopped_speaking_at": 1769059670.5824358
+      },
+      "created_at": 1769059669.9424472
+    },
+    {
+      "id": "item_D0hWQvyn1n1cD3bZF11IO",
+      "type": "message",
+      "role": "user",
+      "content": [
+        "\u062a\u0642\u062f\u0631"
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {},
+      "created_at": 1769059674.3302886
+    },
+    {
+      "id": "item_D0hWaRUan7fwXfp94yC66",
+      "type": "message",
+      "role": "user",
+      "content": [
+        "After the JSON file was downloaded, the work was a bit manually to upload the JSON file to the LLM and it generated the evaluation report of the content."
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {},
+      "created_at": 1769059688.6401732
+    },
+    {
+      "id": "item_D0hWhoVlwDEqTGsb57aoB",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        "Let's break this down. How did you automate that JSON file handling step specifically?"
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {
+        "started_speaking_at": 1769059688.664836,
+        "stopped_speaking_at": 1769059693.716897
+      },
+      "created_at": 1769059688.664836
+    },
+    {
+      "id": "item_D0hX0eB3tNQtTCvNCFTRm",
+      "type": "message",
+      "role": "user",
+      "content": [
+        "Actually I didn't automate it but my next big task is to automate that task into a manual."
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {},
+      "created_at": 1769059707.8364775
+    },
+    {
+      "id": "item_D0hX1GU2nhwvedcK5Ku50",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        "Understood. Let's move on to the technical assessment. Explain how you typically optimize a Python machine learning model for inference speed."
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {
+        "started_speaking_at": 1769059708.1710806,
+        "stopped_speaking_at": 1769059716.3729024
+      },
+      "created_at": 1769059708.1710806
+    },
+    {
+      "id": "item_D0hXH7OcPzv3H431BJ5sw",
+      "type": "message",
+      "role": "user",
+      "content": [
+        "to optimize the Python machine learning model is to handle the parameters correctly. And you have to make sure that the training speed and the testing speed should be validating between those and"
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {},
+      "created_at": 1769059738.922528
+    },
+    {
+      "id": "item_D0hXWxFGi3dy8q4q9o9zZ",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        "Can you be more specific? What exact techniques or tools do you use to optimize inference speed?"
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {
+        "started_speaking_at": 1769059739.4749458,
+        "stopped_speaking_at": 1769059745.426901
+      },
+      "created_at": 1769059739.4749458
+    },
+    {
+      "id": "item_D0hXkMYR8os84oB5DzGyB",
+      "type": "message",
+      "role": "user",
+      "content": [
+        "I'm sorry, I don't know about this answer. Can we move to the next question?"
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {},
+      "created_at": 1769059753.8569372
+    },
+    {
+      "id": "item_D0hXlPW8h0p2BczbNpzfH",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        "That's okay, let me ask something else. How would you deploy a large language model using an API for a production environment?"
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {
+        "started_speaking_at": 1769059754.2805216,
+        "stopped_speaking_at": 1769059761.3325698
+      },
+      "created_at": 1769059754.2805216
+    },
+    {
+      "id": "item_D0hXxMlUmL5gCbXHPEaKb",
+      "type": "message",
+      "role": "user",
+      "content": [
+        "I'm sorry, I didn't prepare for this question."
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {},
+      "created_at": 1769059768.031445
+    },
+    {
+      "id": "item_D0hXzwum309eTQSiEyM4P",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        "That's fine. Let's try a different one. How would you fine-tune a pretrained transformer model on a custom dataset?"
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {
+        "started_speaking_at": 1769059768.3348525,
+        "stopped_speaking_at": 1769059774.8377447
+      },
+      "created_at": 1769059768.3348525
+    },
+    {
+      "id": "item_D0hYCG3TvJ0EeFmpjG8DW",
+      "type": "message",
+      "role": "user",
+      "content": [
+        "Actually, I don't prepare for this at all. I don't this part of the"
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {},
+      "created_at": 1769059785.913201
+    },
+    {
+      "id": "item_D0hYHp9CmihnHK9EFgkYC",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        "All right. Let me ask something else. How would you handle versioning your machine learning models in a production pipeline?"
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {
+        "started_speaking_at": 1769059786.1651716,
+        "stopped_speaking_at": 1769059792.8166828
+      },
+      "created_at": 1769059786.1651716
+    },
+    {
+      "id": "item_D0hYQNxney1mYNFY3mJ4t",
+      "type": "message",
+      "role": "user",
+      "content": [
+        "Sorry, sorry, please next question."
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {},
+      "created_at": 1769059797.4868023
+    },
+    {
+      "id": "item_D0hYSU011hplXveB8P9rz",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        "All right, let's move forward. Here's a practical scenario: imagine your model's predictions are drifting over time due to changing data patterns. How would you approach identifying and resolving that issue?"
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {
+        "started_speaking_at": 1769059797.9769034,
+        "stopped_speaking_at": 1769059809.3285532
+      },
+      "created_at": 1769059797.9769034
+    },
+    {
+      "id": "item_D0hYmXeZ0ShOILpQjEEZL",
+      "type": "message",
+      "role": "user",
+      "content": [
+        "In this case, it's basically to monitor your large language model continuously. It's a normal tendency that the large language model accuracy depreciated out over the time, so it's important to feed the LLM continuously with the quality and the updated data."
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {},
+      "created_at": 1769059827.935665
+    },
+    {
+      "id": "item_D0hYwdm6nCqvod1zkXXPN",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        "Can you explain more specifically how you would monitor and detect that drift in real time?"
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {
+        "started_speaking_at": 1769059828.027999,
+        "stopped_speaking_at": 1769059833.8238156
+      },
+      "created_at": 1769059828.027999
+    },
+    {
+      "id": "item_D0hZAsRFnNVyU9S6OXHtB",
+      "type": "message",
+      "role": "user",
+      "content": [
+        "For monitoring, we have different tools like Docker and yes, we can use Docker for monitoring the version."
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {},
+      "created_at": 1769059847.3414893
+    },
+    {
+      "id": "item_D0hZGFjnbtBIfYPQU8TcT",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        "Are you sure about using Docker for monitoring model drift?"
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {
+        "started_speaking_at": 1769059847.7768087,
+        "stopped_speaking_at": 1769059851.578756
+      },
+      "created_at": 1769059847.7768087
+    },
+    {
+      "id": "item_D0hZPArJIr5pxVsH0dT4N",
+      "type": "message",
+      "role": "user",
+      "content": [
+        "I thought we used a Prometheus and Grafana for this."
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {},
+      "created_at": 1769059858.6507063
+    },
+    {
+      "id": "item_D0hZRgQzeFKPZE84hvaVG",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        "Prometheus and Grafana are more suitable. Now, how would you set up those tools to track prediction drift metrics?"
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {
+        "started_speaking_at": 1769059859.0218444,
+        "stopped_speaking_at": 1769059865.6742058
+      },
+      "created_at": 1769059859.0218444
+    },
+    {
+      "id": "item_D0hZcwLFVsfGek8IbRLkL",
+      "type": "message",
+      "role": "user",
+      "content": [
+        "But if needs support for the next."
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {},
+      "created_at": 1769059874.9344552
+    },
+    {
+      "id": "item_D0hZicDxsicYYXYSFQ84H",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        "Understood. We have about 10 minutes left. Let\u2019s wrap up with a final question. How would you design a fallback mechanism if the primary LLM API goes down?"
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {
+        "started_speaking_at": 1769059875.6842585,
+        "stopped_speaking_at": 1769059886.401713
+      },
+      "created_at": 1769059875.6842585
+    },
+    {
+      "id": "item_D0ha1zgDSw4By0iE5bwef",
+      "type": "message",
+      "role": "user",
+      "content": [
+        "Sorry, please next question. I don't know about this one. Can you please ask me some team and cultural fit questions?"
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {},
+      "created_at": 1769059895.956772
+    },
+    {
+      "id": "item_D0ha3fdmN1FiZ3tOFmXUf",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        "Let's stay focused on the technical role. How would you handle switching to a backup model if your primary model fails in production?"
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {
+        "started_speaking_at": 1769059896.5855641,
+        "stopped_speaking_at": 1769059904.489961
+      },
+      "created_at": 1769059896.5855641
+    },
+    {
+      "id": "item_D0haDAQOliroWhs5ZuFxS",
+      "type": "message",
+      "role": "user",
+      "content": [
+        "So in this, we have to make sure the fallback mechanism is working correctly."
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {},
+      "created_at": 1769059910.946003
+    },
+    {
+      "id": "item_D0haOUDlYtuwnV6bflemf",
+      "type": "message",
+      "role": "user",
+      "content": [
+        "In the case of uh falling off primary API, we have to make sure that the backup API is working as defined in this."
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {},
+      "created_at": 1769059921.4252822
+    },
+    {
+      "id": "item_D0haS8pJmbCp3zFqtkwPW",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        "Can you explain the exact steps you would take to implement that backup switching?"
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {
+        "started_speaking_at": 1769059921.863186,
+        "stopped_speaking_at": 1769059926.3654737
+      },
+      "created_at": 1769059921.863186
+    },
+    {
+      "id": "item_D0haafkb8VpsxJ1xItBeR",
+      "type": "message",
+      "role": "user",
+      "content": [
+        "Sorry, I don't know that."
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {},
+      "created_at": 1769059929.7967908
+    },
+    {
+      "id": "item_D0habbuoS0Yn289WHDs88",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        "Understood. We'll need to wrap up. We're done. Do you have any questions for me?"
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {
+        "started_speaking_at": 1769059930.7184536,
+        "stopped_speaking_at": 1769059935.4701023
+      },
+      "created_at": 1769059930.7184536
+    },
+    {
+      "id": "item_D0hasok14tDfMPKhqEtxV",
+      "type": "message",
+      "role": "user",
+      "content": [
+        "Please go ahead with the"
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {},
+      "created_at": 1769059948.4859781
+    },
+    {
+      "id": "item_D0hatZcVl0mtuebYsQ89J",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        "HR will discuss salary and benefits next. Thanks for your time. We'll be in touch."
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {
+        "started_speaking_at": 1769059949.5367892,
+        "stopped_speaking_at": 1769059954.4884834
+      },
+      "created_at": 1769059949.5367892
+    },
+    {
+      "id": "item_D0hbAF8A3aImvAADPuypI",
+      "type": "message",
+      "role": "user",
+      "content": [
+        "How was my interview?"
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {},
+      "created_at": 1769059965.9222786
+    },
+    {
+      "id": "item_D0hbBEf0uPS6P18upct4d",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        "Thank you for your time. We'll be in touch soon. Take care."
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {
+        "started_speaking_at": 1769059966.8702004,
+        "stopped_speaking_at": 1769059971.1721468
+      },
+      "created_at": 1769059966.8702004
+    }
+  ]
+}
