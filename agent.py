@@ -71,7 +71,7 @@ async def interview_agent(ctx: agents.JobContext):
     session = AgentSession(
         llm=openai.realtime.RealtimeModel(
             voice="coral",
-            temperature=0.6,
+            temperature=0.8,  # Higher for more natural, human-like responses
         ),
     )
     
@@ -107,15 +107,28 @@ async def interview_agent(ctx: agents.JobContext):
     # Track if evaluation has been generated
     evaluation_generated = False
     
-    # Room disconnect handler - THIS is what fires when user leaves
+    # Room disconnect handler - fires when user leaves
     @ctx.room.on("participant_disconnected")
-    def on_participant_disconnected(participant):
+    def on_participant_disconnected(participant: rtc.RemoteParticipant):
         """Handle participant disconnect"""
         nonlocal evaluation_generated
         if not evaluation_generated and participant.kind == rtc.ParticipantKind.PARTICIPANT_KIND_STANDARD:
             print(f"\n👋 Participant {participant.identity} disconnected")
+            print(f"💬 Total conversation turns: {len(assistant.interview_tools.transcript)}")
             evaluation_generated = True
             # Schedule evaluation
+            import asyncio
+            asyncio.create_task(generate_post_interview_evaluation(assistant.interview_tools))
+    
+    # Also handle room disconnection (backup)
+    @ctx.room.on("disconnected")
+    def on_room_disconnected():
+        """Handle room disconnect (backup trigger)"""
+        nonlocal evaluation_generated
+        if not evaluation_generated and len(assistant.interview_tools.transcript) > 0:
+            print(f"\n🔌 Room disconnected")
+            print(f"💬 Total conversation turns: {len(assistant.interview_tools.transcript)}")
+            evaluation_generated = True
             import asyncio
             asyncio.create_task(generate_post_interview_evaluation(assistant.interview_tools))
     

@@ -254,8 +254,13 @@ Provide ONLY the JSON output, no additional text."""
     def _save_evaluation(self, evaluation: Dict) -> str:
         """Save evaluation to JSON file"""
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        
+        # Sanitize candidate name and position for filename
         candidate_name = evaluation["metadata"]["candidate_name"].replace(" ", "_")
+        candidate_name = candidate_name.replace("/", "-").replace("\\", "-")  # Remove slashes
+        
         position = evaluation["metadata"]["position"].replace(" ", "_")
+        position = position.replace("/", "-").replace("\\", "-")  # Remove slashes
         
         filename = f"{candidate_name}_{position}_{timestamp}.json"
         filepath = self.evaluations_dir / filename
@@ -284,8 +289,8 @@ Provide ONLY the JSON output, no additional text."""
         recommendation = evaluation["recommendation"]
         
         report = f"""
-╔══════════════════════════════════════════════════════════════════╗ 
-║                   INTERVIEW EVALUATION REPORT                    ║
+╔══════════════════════════════════════════════════════════════════╗
+║              INTERVIEW EVALUATION REPORT                         ║
 ╚══════════════════════════════════════════════════════════════════╝
 
 CANDIDATE INFORMATION:

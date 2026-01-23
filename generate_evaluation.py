@@ -34,9 +34,10 @@ async def generate_evaluation_from_json(json_file_path: str):
     # Extract conversation items
     items = chat_data.get('items', [])
     
-    # Build transcript
+    # Build transcript and detect role
     transcript_parts = []
     candidate_name = "Unknown Candidate"
+    candidate_position = "Unknown Position"
     
     for item in items:
         if item.get('type') == 'message':
@@ -54,34 +55,89 @@ async def generate_evaluation_from_json(json_file_path: str):
                 speaker = "Candidate" if role == "user" else "Interviewer"
                 transcript_parts.append(f"{speaker}: {text}")
                 
-                # Try to extract candidate name from first user message
+                # Try to extract candidate name and position from first user message
                 if role == "user" and candidate_name == "Unknown Candidate":
                     text_lower = text.lower()
-                    if "my name is" in text_lower:
-                        parts = text_lower.split("my name is")
-                        if len(parts) > 1:
-                            name_part = parts[1].strip().split()[0]
-                            candidate_name = name_part.capitalize()
+                    
+                    # Extract name
+                    if "my name is" in text_lower or "i'm" in text_lower or "i am" in text_lower:
+                        for pattern in ["my name is ", "i'm ", "i am "]:
+                            if pattern in text_lower:
+                                parts = text_lower.split(pattern)
+                                if len(parts) > 1:
+                                    name_part = parts[1].strip().split()[0]
+                                    candidate_name = name_part.capitalize()
+                                    break
+                    
+                    # Extract position/role - Look for common keywords
+                    role_keywords = {
+                        "ui/ux designer": "UI/UX Designer",
+                        "ui ux designer": "UI/UX Designer",
+                        "designer": "Designer",
+                        "frontend developer": "Frontend Developer",
+                        "front end developer": "Frontend Developer",
+                        "backend developer": "Backend Developer",
+                        "back end developer": "Backend Developer",
+                        "full stack developer": "Full Stack Developer",
+                        "fullstack developer": "Full Stack Developer",
+                        "software developer": "Software Developer",
+                        "software engineer": "Software Engineer",
+                        "ai developer": "AI Developer",
+                        "ml engineer": "ML Engineer",
+                        "machine learning": "ML Engineer",
+                        "data scientist": "Data Scientist",
+                        "devops engineer": "DevOps Engineer",
+                        "qa engineer": "QA Engineer",
+                        "tester": "QA Tester",
+                        "product manager": "Product Manager",
+                        "project manager": "Project Manager",
+                        "sales": "Sales Executive",
+                        "marketing": "Marketing Specialist",
+                        "hr": "HR Professional",
+                    }
+                    
+                    for keyword, position in role_keywords.items():
+                        if keyword in text_lower:
+                            candidate_position = position
+                            break
+    
+    # If still unknown, try to infer from conversation content
+    if candidate_position == "Unknown Position":
+        full_text = " ".join(transcript_parts).lower()
+        if "angular" in full_text or "react" in full_text or "frontend" in full_text:
+            candidate_position = "Frontend Developer"
+        elif "backend" in full_text or "api" in full_text or "database" in full_text:
+            candidate_position = "Backend Developer"
+        elif "figma" in full_text or "design" in full_text or "wireframe" in full_text:
+            candidate_position = "UI/UX Designer"
+        elif "machine learning" in full_text or "model" in full_text or "ai" in full_text:
+            candidate_position = "AI/ML Developer"
     
     # Build full transcript
     full_transcript = "\n\n".join(transcript_parts)
     
     print(f"✅ Extracted {len(transcript_parts)} conversation turns")
-    print(f"👤 Candidate: {candidate_name}\n")
+    print(f"👤 Candidate: {candidate_name}")
+    print(f"💼 Detected Position: {candidate_position}\n")
     
-    # Get interview config
+    # Get interview config - but we'll use detected position instead
     config = get_interview_config()
     
-    # Create mock interview notes (since we don't have them from JSON)
+    # Create mock interview notes
     interview_notes = [
         {
             "category": "general",
             "note": f"Interview conducted via LiveKit - {len(transcript_parts)} conversation turns",
             "stage": "summary"
+        },
+        {
+            "category": "role_detection",
+            "note": f"Candidate role detected as: {candidate_position}",
+            "stage": "analysis"
         }
     ]
     
-    # Calculate duration (approximate from timestamps if available)
+    # Calculate duration
     duration_minutes = 15  # Default
     if len(items) > 1:
         first_item = next((i for i in items if i.get('type') == 'message'), None)
@@ -102,13 +158,13 @@ async def generate_evaluation_from_json(json_file_path: str):
     evaluator = InterviewEvaluator()
     evaluation = await evaluator.evaluate_interview(
         candidate_name=candidate_name,
-        position=config['position'],
+        position=candidate_position,  # Use detected position
         transcript=full_transcript,
         interview_notes=interview_notes,
         duration_minutes=duration_minutes,
         candidate_info={
             "name": candidate_name,
-            "position": config['position'],
+            "position": candidate_position,  # Use detected position
             "source": "LiveKit Chat History JSON"
         }
     )
