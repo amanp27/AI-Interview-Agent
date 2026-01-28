@@ -1,0 +1,376 @@
+{
+  "items": [
+    {
+      "id": "item_f9780f901fd8",
+      "type": "agent_handoff",
+      "new_agent_id": "interview_assistant",
+      "created_at": 1769577935.8054686
+    },
+    {
+      "id": "item_D2sLZ1djfBssIk5wsl4AF",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        "Hello! I'm SIMA from Tacktile System. Thanks for joining today. So, tell me a bit about yourself and what you do."
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {
+        "started_speaking_at": 1769577937.9980042,
+        "stopped_speaking_at": 1769577945.6502488
+      },
+      "created_at": 1769577937.9980042
+    },
+    {
+      "id": "item_b506194c22f3",
+      "type": "message",
+      "role": "user",
+      "content": [
+        "Hello my name is Aman and I am an AI/ML developer in tacktile systems"
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {},
+      "created_at": 1769577957.2664223
+    },
+    {
+      "id": "item_D2sLt4aA4oQ5hVIJyLo59",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        "Hi Aman, great to meet you. Let\u2019s get started. What interests you most about working in AI and ML?"
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {
+        "started_speaking_at": 1769577958.414805,
+        "stopped_speaking_at": 1769577965.719588
+      },
+      "created_at": 1769577958.414805
+    },
+    {
+      "id": "item_5aa06f990067",
+      "type": "message",
+      "role": "user",
+      "content": [
+        "I like to build AI applications "
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {},
+      "created_at": 1769577991.9742904
+    },
+    {
+      "id": "item_D2sMSWdzQNrOIHaRsaJQu",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        "That\u2019s great to hear. Now, let's talk about your work. Could you tell me about a recent project you worked on in AI or ML?"
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {
+        "started_speaking_at": 1769577993.0136316,
+        "stopped_speaking_at": 1769578000.265677
+      },
+      "created_at": 1769577993.0136316
+    },
+    {
+      "id": "item_93baab7ab11c",
+      "type": "message",
+      "role": "user",
+      "content": [
+        "yeah recently worked on interview assistant project for my organisation"
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {},
+      "created_at": 1769578023.0209901
+    },
+    {
+      "id": "item_D2sMxfPQFm9DDoHwNaSDl",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        "Interesting! I'd love to hear more about that. What was your specific role in building that interview assistant project, and what challenges did you face?"
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {
+        "started_speaking_at": 1769578023.8685267,
+        "stopped_speaking_at": 1769578032.7369025
+      },
+      "created_at": 1769578023.8685267
+    },
+    {
+      "id": "item_5d8a8810432e",
+      "type": "message",
+      "role": "user",
+      "content": [
+        "can we skip this topic"
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {},
+      "created_at": 1769578036.4327545
+    },
+    {
+      "id": "item_D2sNAUnJChqHfgoeUVYqy",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        "I understand. No problem. Let me ask about something else. How about a different project you've worked on recently in AI or ML?"
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {
+        "started_speaking_at": 1769578037.2896147,
+        "stopped_speaking_at": 1769578044.7320209
+      },
+      "created_at": 1769578037.2896147
+    },
+    {
+      "id": "item_c24f934155a2",
+      "type": "message",
+      "role": "user",
+      "content": [
+        "I dont know"
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {},
+      "created_at": 1769578045.5502446
+    },
+    {
+      "id": "item_D2sNJxtSW9uZA9teIKzaM",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        "That\u2019s okay. Let\u2019s take a step back. Tell me about any AI or ML concepts you've worked with, or any models you've trained in the past."
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {
+        "started_speaking_at": 1769578046.5224738,
+        "stopped_speaking_at": 1769578054.624703
+      },
+      "created_at": 1769578046.5224738
+    },
+    {
+      "id": "item_ede500ebe4c9",
+      "type": "message",
+      "role": "user",
+      "content": [
+        "Np I just studied and learned"
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {},
+      "created_at": 1769578065.9124508
+    },
+    {
+      "id": "item_D2sNeYCoWRX6gT4nH46ab",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        "Got it, no worries. Let\u2019s focus on what you\u2019ve learned so far. Which machine learning concepts or"
+      ],
+      "interrupted": true,
+      "extra": {},
+      "metrics": {
+        "started_speaking_at": 1769578066.7832756,
+        "stopped_speaking_at": 1769578073.5104847
+      },
+      "created_at": 1769578066.7832756
+    },
+    {
+      "id": "item_a1563100627e",
+      "type": "message",
+      "role": "user",
+      "content": [
+        "and gain the skills"
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {},
+      "created_at": 1769578073.5179908
+    },
+    {
+      "id": "item_D2sNlwVIL7o6uet9eHAvG",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        "Got it. So, let\u2019s focus on your learning journey. What machine learning concepts have you studied so far?"
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {
+        "started_speaking_at": 1769578074.3621922,
+        "stopped_speaking_at": 1769578080.8982918
+      },
+      "created_at": 1769578074.3621922
+    },
+    {
+      "id": "item_cde065e3c8db",
+      "type": "message",
+      "role": "user",
+      "content": [
+        "I dont know about ML , I only did AI"
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {},
+      "created_at": 1769578090.7416303
+    },
+    {
+      "id": "item_D2sO3MIqyEHDFNxrjZsNg",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        "Understood. Let\u2019s focus on your experience with AI. Can you tell me about an AI model or application you\u2019ve worked on or experimented with?"
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {
+        "started_speaking_at": 1769578091.623804,
+        "stopped_speaking_at": 1769578100.3772466
+      },
+      "created_at": 1769578091.623804
+    },
+    {
+      "id": "item_c1755a7f37be",
+      "type": "message",
+      "role": "user",
+      "content": [
+        "No i just studied"
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {},
+      "created_at": 1769578104.7731724
+    },
+    {
+      "id": "item_D2sOH2euH3pFY8MvsnDky",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        "That's totally fine. Let\u2019s dive into what you've learned. Can you share some AI techniques or tools that you\u2019ve studied and feel comfortable with?"
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {
+        "started_speaking_at": 1769578106.280922,
+        "stopped_speaking_at": 1769578114.4485025
+      },
+      "created_at": 1769578106.280922
+    },
+    {
+      "id": "item_58c8bce76e0b",
+      "type": "message",
+      "role": "user",
+      "content": [
+        "No"
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {},
+      "created_at": 1769578115.5476687
+    },
+    {
+      "id": "item_D2sORMEFhbIEJZ4PBnpw9",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        "I see. Let\u2019s start simple. What first got you interested in AI?"
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {
+        "started_speaking_at": 1769578116.669109,
+        "stopped_speaking_at": 1769578121.5206022
+      },
+      "created_at": 1769578116.669109
+    },
+    {
+      "id": "item_657ea1bbbf92",
+      "type": "message",
+      "role": "user",
+      "content": [
+        "how much time remaning to end this interview"
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {},
+      "created_at": 1769578129.1389017
+    },
+    {
+      "id": "item_D2sOfLZRAKTFkosTxepwm",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        "We\u2019ve got plenty of time left\u2014about 15 to 20 minutes. Let\u2019s make the most of it. Tell me, how do you approach learning new AI concepts or skills?"
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {
+        "started_speaking_at": 1769578130.2651227,
+        "stopped_speaking_at": 1769578139.3672926
+      },
+      "created_at": 1769578130.2651227
+    },
+    {
+      "id": "item_f37dbf0f2848",
+      "type": "message",
+      "role": "user",
+      "content": [
+        "It is too long , just end caz I havent prepared for this"
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {},
+      "created_at": 1769578148.3357363
+    },
+    {
+      "id": "item_D2sOynLQ3gcz6a1mnqzLP",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        "Understood. Thank you for letting me know. We'll end it here. Take care, and when you're ready in the future, we can give it another go. Thanks for your time."
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {
+        "started_speaking_at": 1769578149.3635054,
+        "stopped_speaking_at": 1769578156.9147065
+      },
+      "created_at": 1769578149.3635054
+    },
+    {
+      "id": "item_640a71d1f397",
+      "type": "message",
+      "role": "user",
+      "content": [
+        "ok"
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {},
+      "created_at": 1769578159.0961785
+    },
+    {
+      "id": "item_D2sP9ZpAQcZ3qA8DD5Yzc",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        "Thank you. All the best. We'll be in touch if needed. Take care."
+      ],
+      "interrupted": false,
+      "extra": {},
+      "metrics": {
+        "started_speaking_at": 1769578160.1903715,
+        "stopped_speaking_at": 1769578163.8641043
+      },
+      "created_at": 1769578160.1903715
+    }
+  ]
+}

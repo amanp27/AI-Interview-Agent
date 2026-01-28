@@ -1,438 +1,463 @@
-# AI Interview System - Python Backend
-
-Complete AI-powered interview system backend built with Python, LiveKit, and Claude AI.
-
-## Architecture
-
-```
-┌─────────────────┐
-│   Frontend      │
-│ (React/TypeScript)│
-└────────┬────────┘
-         │
-         ▼
-┌─────────────────┐
-│  FastAPI Server │  ← api_server.py
-│  (Port 8000)    │
-└────────┬────────┘
-         │
-         ▼
-┌─────────────────┐
-│  LiveKit Room   │
-│  + Recording    │
-└────────┬────────┘
-         │
-    ┌────┴────┐
-    ▼         ▼
-┌────────┐  ┌──────────┐
-│Candidate│  │AI Agent  │ ← agent.py
-│         │  │(Claude)  │
-└─────────┘  └──────────┘
-```
-
-## Files Overview
-
-### Core Files
-
-1. **agent.py** - Main AI interview agent
-   - Connects to LiveKit rooms
-   - Manages conversation flow
-   - Captures full transcript
-   - Handles interview lifecycle
-
-2. **api_server.py** - FastAPI REST API
-   - Creates interview sessions
-   - Generates LiveKit tokens
-   - Manages interview data
-   - Triggers evaluations
-
-3. **tools.py** - Utilities and managers
-   - TranscriptManager: Captures and stores conversations
-   - EvaluationEngine: AI-powered candidate evaluation
-   - RecordingManager: Manages video/audio recordings
-   - InterviewStateManager: Tracks interview state
-
-4. **prompts.py** - AI prompts and instructions
-   - Agent instructions
-   - Position-specific questions
-   - Evaluation criteria
-   - Dynamic prompt generation
-
-## Setup Instructions
-
-### 1. Install Dependencies
-
-```bash
-# Create virtual environment
-python -m venv venv
-
-# Activate virtual environment
-# On macOS/Linux:
-source venv/bin/activate
-# On Windows:
-venv\Scripts\activate
-
-# Install requirements
-pip install -r requirements.txt
-```
-
-### 2. Configure Environment
-
-```bash
-# Copy example environment file
-cp .env.example .env
-
-# Edit .env with your credentials
-nano .env
-```
-
-Required credentials:
-- **LiveKit**: Get from https://cloud.livekit.io (or run locally)
-- **Anthropic API**: Get from https://console.anthropic.com
-- **OpenAI API**: Get from https://platform.openai.com
-
-### 3. Run LiveKit Server (Local Development)
-
-If using local LiveKit server:
-
-```bash
-# Using Docker
-docker run -d \
-  --name livekit \
-  -p 7880:7880 \
-  -p 7881:7881 \
-  -p 7882:7882/udp \
-  -e LIVEKIT_KEYS="devkey: devsecret" \
-  livekit/livekit-server:latest
-
-# Or download binary from https://github.com/livekit/livekit/releases
-```
-
-Update .env:
-```
-LIVEKIT_URL=ws://localhost:7880
-LIVEKIT_API_KEY=devkey
-LIVEKIT_API_SECRET=devsecret
-```
-
-### 4. Start the Backend Services
-
-**Terminal 1: Start API Server**
-```bash
-python api_server.py
-# Runs on http://localhost:8000
-```
-
-**Terminal 2: Start AI Agent**
-```bash
-python agent.py start
-# Waits for interview sessions
-```
-
-### 5. Test the API
-
-```bash
-# Health check
-curl http://localhost:8000/
-
-# Start interview
-curl -X POST http://localhost:8000/api/start-interview \
-  -H "Content-Type: application/json" \
-  -d '{
-    "name": "John Doe",
-    "position": "Software Engineer",
-    "experience": "5 years"
-  }'
-```
-
-## How It Works
-
-### 1. Interview Start Flow
-
-```
-Frontend → POST /api/start-interview
-   ↓
-API creates LiveKit room
-   ↓
-Generate tokens (candidate + agent)
-   ↓
-Initialize transcript tracking
-   ↓
-Return token to frontend
-   ↓
-AI Agent joins room automatically
-   ↓
-Interview begins
-```
-
-### 2. Conversation Capture
-
-The system captures conversations in real-time:
-
-```python
-# In agent.py
-async def on_user_speech(self, text: str):
-    # Captures candidate responses
-    self.transcript_manager.add_entry(
-        interview_id=self.interview_id,
-        speaker=self.candidate_name,
-        text=text
-    )
-
-async def on_agent_speech(self, text: str):
-    # Captures AI interviewer questions
-    self.transcript_manager.add_entry(
-        interview_id=self.interview_id,
-        speaker="AI Interviewer",
-        text=text
-    )
-```
-
-### 3. Recording Process
-
-LiveKit automatically records:
-- **Video**: Full interview with both participants
-- **Audio**: High-quality audio tracks
-- **Separate tracks**: Individual audio for analysis
-
-Recordings are saved and can be accessed via API.
-
-### 4. AI Evaluation
-
-After interview ends:
-
-```python
-# Automatically triggered
-transcript = get_full_transcript()
-   ↓
-Claude analyzes conversation
-   ↓
-Generates comprehensive evaluation:
-   - Overall score (0-100)
-   - Technical assessment
-   - Communication score
-   - Problem-solving ability
-   - Strengths & weaknesses
-   - Hiring recommendation
-   ↓
-Saved to evaluations/{interview_id}_evaluation.json
-```
-
-## API Endpoints
-
-### Start Interview
-```http
-POST /api/start-interview
-Content-Type: application/json
-
-{
-  "name": "John Doe",
-  "position": "Senior Software Engineer",
-  "experience": "5 years"
-}
-
-Response:
-{
-  "token": "eyJhbGc...",
-  "room_name": "interview-uuid",
-  "interview_id": "uuid",
-  "ws_url": "wss://..."
-}
-```
-
-### End Interview
-```http
-POST /api/end-interview
-Content-Type: application/json
-
-{
-  "interview_id": "uuid"
-}
-```
-
-### Get Interview Details
-```http
-GET /api/interview/{interview_id}
-
-Response:
-{
-  "interview_id": "uuid",
-  "candidate_name": "John Doe",
-  "position": "Senior Software Engineer",
-  "status": "completed",
-  "transcript": [...],
-  "evaluation": {...}
-}
-```
-
-### List All Interviews
-```http
-GET /api/interviews?status=completed&page=1&page_size=10
-```
-
-### Get Transcript
-```http
-GET /api/transcript/{interview_id}
-```
-
-### Get Evaluation
-```http
-GET /api/evaluation/{interview_id}
-```
-
-## Customization
-
-### Adding New Position Types
-
-Edit `prompts.py`:
-
-```python
-POSITION_QUESTIONS = {
-    "your_position": [
-        "Question 1 for this role",
-        "Question 2 for this role",
-    ]
-}
-```
-
-### Adjusting Interview Duration
-
-Edit `agent.py`:
-
-```python
-# Change threshold for wrapping up
-if state_manager.should_wrap_up(interview_id, threshold=15):
-    # Now interviews will have ~15 exchanges before wrapping up
-```
-
-### Custom Evaluation Criteria
-
-Edit `prompts.py` - `EVALUATION_PROMPT`:
-
-```python
-# Add custom scoring dimensions
-"custom_score": <0-100>,
-"custom_assessment": "Your custom criteria"
-```
-
-## Data Storage
-
-The system stores data in local files (for testing):
-
-```
-project/
-├── transcripts/
-│   └── {interview_id}_transcript.json
-├── evaluations/
-│   └── {interview_id}_evaluation.json
-├── recordings/
-│   └── {interview_id}_recording.mp4
-└── agent_tokens.json
-```
-
-For production, integrate with:
-- **MongoDB**: For structured data
-- **AWS S3**: For recordings
-- **PostgreSQL**: For relational data
-
-## Monitoring and Logs
-
-View logs in real-time:
-
-```bash
-# API Server logs
-tail -f logs/api.log
-
-# Agent logs
-tail -f logs/agent.log
-```
-
-## Troubleshooting
-
-### LiveKit Connection Issues
-
-```bash
-# Check LiveKit is running
-curl http://localhost:7880
-
-# Verify credentials
-echo $LIVEKIT_API_KEY
-```
-
-### Agent Not Joining Rooms
-
-```bash
-# Check agent is running
-ps aux | grep agent.py
-
-# Restart agent
-python agent.py start
-```
-
-### Transcript Not Saving
-
-```bash
-# Check file permissions
-ls -la transcripts/
-
-# Verify directory exists
-mkdir -p transcripts evaluations recordings
-```
-
-### Evaluation Not Generating
-
-```bash
-# Check Anthropic API key
-curl https://api.anthropic.com/v1/messages \
-  -H "x-api-key: $ANTHROPIC_API_KEY" \
-  -H "anthropic-version: 2023-06-01"
-```
-
-## Production Deployment
-
-### Using Render/Railway/Heroku
-
-1. Add `Procfile`:
-```
-web: uvicorn api_server:app --host 0.0.0.0 --port $PORT
-worker: python agent.py start
-```
-
-2. Set environment variables in platform
-3. Deploy
-
-### Using Docker
-
-```dockerfile
-# Dockerfile provided separately
-docker build -t ai-interview .
-docker run -p 8000:8000 ai-interview
-```
-
-### Using LiveKit Cloud
-
-1. Sign up at https://cloud.livekit.io
-2. Create project
-3. Get API credentials
-4. Update .env with cloud URL and keys
-
-## Next Steps
-
-1. ✅ Backend running locally
-2. 🔄 Build React frontend
-3. 🔄 Connect frontend to backend
-4. 🔄 Test full interview flow
-5. 🔄 Add recording playback
-6. 🔄 Deploy to production
-
-## Support
-
-For issues:
-1. Check logs
-2. Verify environment variables
-3. Ensure all services are running
-4. Check API documentation
+# 🎙️ AI Interview Assistant - SIMA
+
+> **Intelligent, Adaptive Interview System powered by AI**  
+> Conduct professional, real-time voice interviews across any role - from Software Engineers to Sales Executives.
+
+[![LiveKit](https://img.shields.io/badge/LiveKit-Powered-blue)](https://livekit.io)
+[![OpenAI](https://img.shields.io/badge/OpenAI-GPT--4-green)](https://openai.com)
+[![Python](https://img.shields.io/badge/Python-3.13-yellow)](https://python.org)
+[![License](https://img.shields.io/badge/License-MIT-red)](LICENSE)
 
 ---
 
-Built with ❤️ using Python, LiveKit, and Claude AI
+## 📋 Table of Contents
+
+- [Overview](#overview)
+- [Key Features](#key-features)
+- [Demo](#demo)
+- [Architecture](#architecture)
+- [Quick Start](#quick-start)
+- [Configuration](#configuration)
+- [Usage](#usage)
+- [Evaluation System](#evaluation-system)
+- [Project Structure](#project-structure)
+- [Troubleshooting](#troubleshooting)
+- [Contributing](#contributing)
+- [License](#license)
+
+---
+
+## 🌟 Overview
+
+**SIMA (Smart Interview Management Assistant)** is an AI-powered voice interview system developed by **Tacktile System**. It conducts professional, real-time interviews with candidates, adapts to any job role, and provides comprehensive AI-driven evaluations to help make hiring decisions.
+
+### What Makes SIMA Special?
+
+- ✅ **100% Voice-Based** - Natural conversation, no typing required
+- ✅ **Role-Adaptive** - Automatically detects candidate's role and asks relevant questions
+- ✅ **Experience-Aware** - Adjusts difficulty for freshers vs experienced professionals
+- ✅ **Real-Time Transcription** - Full conversation captured and analyzed
+- ✅ **AI Evaluation** - Comprehensive scoring and hiring recommendations
+
+---
+
+## 🚀 Key Features
+
+### 🎯 Intelligent Interview Conduct
+
+| Feature | Description |
+|---------|-------------|
+| **Adaptive Questioning** | Detects role (UI/UX, Backend, Frontend, AI/ML, etc.) and asks relevant questions |
+| **Experience Detection** | Automatically adjusts for freshers vs experienced candidates |
+| **Conversational AI** | Natural, human-like dialogue - not robotic |
+| **English Enforcement** | Strictly enforces English-only interviews |
+| **Time Management** | Completes interviews in 20-25 minutes efficiently |
+| **Bluff Detection** | Challenges vague answers and detects memorized responses |
+
+### 📊 Comprehensive Evaluation
+
+- **AI-Powered Analysis** using GPT-4
+- **Multi-Dimensional Scoring** (Technical, Problem-Solving, Communication, Experience, Culture Fit)
+- **Detailed Reports** in JSON format
+- **Hiring Recommendations** (Strong Hire / Hire / Maybe / No Hire)
+- **Role Fit Percentage** (0-100%)
+- **Actionable Feedback** for candidates and hiring teams
+
+### 🔧 Technical Capabilities
+
+- **Real-Time Voice** via LiveKit & OpenAI Realtime API
+- **Session Recording** - Audio, video, and transcripts automatically saved
+- **Observability Dashboard** - Track interviews in LiveKit Cloud
+- **Noise Cancellation** - Clear audio even in noisy environments
+- **Multi-Role Support** - Tech, Design, Sales, HR, BPO, Banking, and more
+
+---
+
+## 🎬 Demo
+
+### Interview Flow
+
+```
+1. Candidate joins → SIMA greets warmly
+2. Candidate introduces → SIMA detects role (e.g., "Backend Developer")
+3. Comfort phase → "What interests you about backend development?"
+4. Technical questions → Role-specific (APIs, databases, etc.)
+5. Project discussion → "Tell me about a recent project"
+6. Behavioral questions → Teamwork, problem-solving
+7. Wrap-up → "Any questions for me?"
+8. Auto-evaluation → Comprehensive report generated
+```
+
+### Sample Evaluation Output
+
+```
+╔══════════════════════════════════════════════════════════════════╗
+║                 INTERVIEW EVALUATION REPORT                      ║
+╚══════════════════════════════════════════════════════════════════╝
+
+CANDIDATE INFORMATION:
+  Name:          Aman
+  Position:      AI Developer
+  Duration:      15 minutes
+
+OVERALL ASSESSMENT:
+  Recommendation: No Hire
+  Overall Score:  3/10
+  Role Fit:       30%
+
+STRENGTHS:
+  1. Experience building AI interview bot
+  2. Familiar with Docker and AWS
+
+WEAKNESSES:
+  1. Limited technical depth in AI/ML concepts
+  2. Unable to answer fundamental questions
+  
+✅ Saved to: evaluations/Aman_AI_Developer_20260123.json
+```
+
+---
+
+## 🏗️ Architecture
+
+See **[ARCHITECTURE.md](ARCHITECTURE.md)** for detailed system design.
+
+**High-Level Overview:**
+
+```
+┌─────────────┐      ┌──────────────┐      ┌─────────────┐
+│  Candidate  │◄────►│  LiveKit     │◄────►│   SIMA      │
+│  (Browser)  │WebRTC│  Server      │      │  AI Agent   │
+└─────────────┘      └──────────────┘      └─────────────┘
+                            │                      │
+                            ▼                      ▼
+                     ┌──────────────┐      ┌─────────────┐
+                     │ Observability│      │  OpenAI     │
+                     │  Dashboard   │      │  GPT-4      │
+                     └──────────────┘      └─────────────┘
+                                                  │
+                                                  ▼
+                                           ┌─────────────┐
+                                           │ Evaluation  │
+                                           │   (JSON)    │
+                                           └─────────────┘
+```
+
+---
+
+## ⚡ Quick Start
+
+### Prerequisites
+
+- Python 3.13+
+- OpenAI API Key
+- LiveKit Cloud Account (free tier available)
+
+### Installation
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/amanp27/AI-Interview-Agent.git
+cd AI-Interview-Agent
+
+# 2. Create virtual environment
+python -m venv myenv
+source myenv/bin/activate  # On Windows: myenv\Scripts\activate
+
+# 3. Install dependencies
+pip install -r requirements.txt
+
+# 4. Configure environment variables
+cp .env.example .env
+# Edit .env with your API keys
+```
+
+### Configuration
+
+Edit `.env` file:
+
+```bash
+# LiveKit Configuration
+LIVEKIT_URL=wss://your-livekit-url.livekit.cloud
+LIVEKIT_API_KEY=your_api_key
+LIVEKIT_API_SECRET=your_api_secret
+
+# OpenAI Configuration
+OPENAI_API_KEY=sk-your-openai-api-key
+```
+
+### Run Interview Assistant
+
+```bash
+# Start in development mode
+python agent.py dev
+
+# You'll see:
+# ✅ Interview session started
+# 📋 Mode: Adaptive (Position detected from candidate)
+# 🎯 Ready to interview any role
+```
+
+### Access Interview
+
+1. Open LiveKit Playground: `https://your-livekit-url.livekit.cloud`
+2. Join the room
+3. Start speaking - SIMA will greet you!
+
+---
+
+## ⚙️ Configuration
+
+### Customize Interview Settings
+
+Edit `interview_config.py`:
+
+```python
+# Company details
+DEPARTMENT = "Engineering"
+
+# Interview settings
+INTERVIEW_DURATION_TARGET = 20  # minutes
+QUESTION_DIFFICULTY = "intermediate"  # easy, intermediate, advanced
+
+# Supported roles (auto-detected)
+KEY_SKILLS = {
+    "AI Developer": ["Python", "ML", "LLMs", "PyTorch"],
+    "Backend Developer": ["Java", "Spring", "REST APIs", "MySQL"],
+    "UI/UX Designer": ["Figma", "User Research", "Prototyping"],
+    # Add more roles as needed
+}
+```
+
+### Customize Prompts
+
+Edit `prompts.py` to customize:
+- `SYSTEM_INSTRUCTION` - Core behavior and boundaries
+- `AGENT_INSTRUCTION` - Interview flow and structure  
+- `QUESTION_POLICY` - Question types and rules
+- `EVALUATION_GUIDELINES` - Scoring criteria
+
+---
+
+## 📖 Usage
+
+### 1. Conducting Interviews
+
+```bash
+# Start the agent
+python agent.py dev
+
+# Candidate joins via LiveKit
+# SIMA automatically:
+# ✅ Detects their role
+# ✅ Adapts questions
+# ✅ Manages time
+# ✅ Generates evaluation
+```
+
+### 2. Generating Evaluations Manually
+
+If auto-evaluation didn't trigger, use the manual script:
+
+```bash
+# Generate evaluation from chat history JSON
+python generate_evaluation_from_json.py candidate_chat_history.json
+
+# Output:
+# ✅ Extracted 58 conversation turns
+# 👤 Candidate: Aman
+# 💼 Detected Position: AI Developer
+# 📊 Overall Recommendation: No Hire
+# ✅ Saved to: evaluations/Aman_AI_Developer_20260123.json
+```
+
+### 3. Accessing Saved Evaluations
+
+```python
+from evaluation import InterviewEvaluator
+
+evaluator = InterviewEvaluator()
+
+# List all evaluations
+evaluations = evaluator.list_evaluations()
+print(evaluations)
+
+# Load specific evaluation
+eval_data = evaluator.load_evaluation("Aman_AI_Developer_20260123.json")
+
+# Generate report
+report = evaluator.generate_summary_report(eval_data)
+print(report)
+```
+
+---
+
+## 📊 Evaluation System
+
+### Scoring Dimensions (Out of 10)
+
+| Dimension | Weight | Description |
+|-----------|--------|-------------|
+| Technical Skills | 35% | Role-specific knowledge and expertise |
+| Problem-Solving | 25% | Analytical thinking and approach |
+| Communication | 15% | Clarity and articulation |
+| Practical Experience | 20% | Real-world application |
+| Cultural Fit | 5% | Teamwork and collaboration |
+
+### Evaluation Output
+
+```json
+{
+  "metadata": {
+    "candidate_name": "John Doe",
+    "position": "Backend Developer",
+    "duration_minutes": 18
+  },
+  "ratings": {
+    "overall_score": 7,
+    "technical_competency": 8,
+    "soft_skills": 6,
+    "experience_match": 7,
+    "growth_potential": 7
+  },
+  "recommendation": {
+    "decision": "Hire",
+    "role_fit_percentage": 75,
+    "next_steps": "Proceed to technical round"
+  }
+}
+```
+
+### Recommendation Levels
+
+- **Strong Hire** (9-10/10) - Exceeds requirements
+- **Hire** (7-8/10) - Meets requirements well
+- **Maybe** (5-6/10) - Borderline candidate
+- **No Hire** (1-4/10) - Significant gaps
+
+---
+
+## 📁 Project Structure
+
+```
+AI-Interview-Agent/
+├── agent.py                 # Main agent server
+├── prompts.py              # Interview prompts and instructions
+├── tools.py                # Interview tools and utilities
+├── evaluation.py           # AI evaluation engine
+├── interview_config.py     # Configuration settings
+├── generate_evaluation_from_json.py  # Manual evaluation script
+├── requirements.txt        # Python dependencies
+├── .env                    # Environment variables (not in git)
+├── evaluations/            # Saved evaluation reports (JSON)
+├── Json_conversation/      # Chat history files
+└── README.md              # This file
+```
+
+---
+
+## 🔧 Troubleshooting
+
+### Agent Not Responding
+
+**Issue:** Agent starts but doesn't speak
+
+**Solution:**
+```bash
+# Stop with Ctrl+C
+# Restart
+python agent.py dev
+```
+
+**Check:**
+- OpenAI API key is valid and has credits
+- LiveKit connection is stable
+- Microphone permissions are granted
+
+### Evaluation Not Generating
+
+**Issue:** Interview completes but no evaluation file
+
+**Solution:**
+```bash
+# Generate manually from chat history
+python generate_evaluation_from_json.py your_chat_history.json
+```
+
+**Note:** Chat history JSONs are automatically downloaded from LiveKit Observability dashboard.
+
+### Position Not Detected
+
+**Issue:** Shows "Unknown Position" in evaluation
+
+**Solution:**
+- Candidate must clearly state their role in introduction
+- Use keywords: "I'm a Backend Developer", "UI/UX Designer", etc.
+- If still not detected, position will be inferred from conversation content
+
+### Common Errors
+
+| Error | Cause | Fix |
+|-------|-------|-----|
+| `OpenAI API key not found` | Missing .env file | Copy .env.example to .env and add key |
+| `FileNotFoundError: evaluations/` | Folder doesn't exist | Folder created automatically on first run |
+| `Connection refused` | LiveKit server down | Check LIVEKIT_URL in .env |
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions! Please follow these steps:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit changes (`git commit -m 'Add AmazingFeature'`)
+4. Push to branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+### Development Guidelines
+
+- Follow PEP 8 style guide
+- Add docstrings to all functions
+- Test thoroughly before submitting
+- Update documentation as needed
+
+---
+
+## 📝 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 👥 Team
+
+**Developed by Tacktile System**
+
+- **AI/ML Engineer:** Aman Prajapati
+
+---
+
+## 🙏 Acknowledgments
+
+- [LiveKit](https://livekit.io) - Real-time communication infrastructure
+- [OpenAI](https://openai.com) - GPT-4 and Realtime API
+- [Anthropic](https://anthropic.com) - Claude assistance in development
+
+---
+
+## 📈 Roadmap
+
+- [ ] Multi-language support (Spanish, French, Hindi)
+- [ ] Video recording and analysis
+- [ ] Integration with ATS systems
+- [ ] Batch interview processing
+- [ ] Custom evaluation criteria per company
+- [ ] Interview analytics dashboard
+- [ ] MongoDB integration for data persistence
+
+---
+
+<div align="center">
+
+</div>

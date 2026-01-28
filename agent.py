@@ -53,19 +53,16 @@ server = AgentServer()
 async def interview_agent(ctx: agents.JobContext):
     """Main interview agent session handler"""
     
-    # Get interview configuration
-    config = get_interview_config()
-    
     # Create the interview assistant instance
     assistant = InterviewAssistant()
     
-    # Set the position from config
-    assistant.interview_tools.set_candidate_details(position=config["position"])
+    # Don't set position from config - let it be detected from candidate
+    # assistant.interview_tools.set_candidate_details(position=config["position"])
     
-    print(f"📋 Interview Configuration:")
-    print(f"   Position: {config['position']}")
-    print(f"   Company: {config['company']}")
-    print(f"   Key Skills: {', '.join(config['key_skills'])}\n")
+    print(f"📋 Interview Session Started")
+    print(f"   Company: Tacktile System")
+    print(f"   Mode: Adaptive (Position will be detected from candidate's introduction)")
+    print(f"   Status: Ready to interview any role\n")
     
     # Initialize the session with OpenAI Realtime model
     session = AgentSession(
@@ -103,6 +100,26 @@ async def interview_agent(ctx: agents.JobContext):
                     
         except Exception as e:
             print(f"⚠️ Error capturing conversation: {e}")
+            import traceback
+            traceback.print_exc()
+    
+    # Add error handler for session
+    @session.on("error")
+    def on_session_error(error):
+        """Handle session errors"""
+        print(f"❌ Session error occurred: {error}")
+    
+    # Add handler for when agent starts speaking
+    @session.on("agent_started_speaking")
+    def on_agent_speaking():
+        """Track when agent speaks"""
+        print("🗣️ Agent started speaking...")
+    
+    # Add handler for when agent stops speaking
+    @session.on("agent_stopped_speaking") 
+    def on_agent_stopped():
+        """Track when agent stops"""
+        print("🤐 Agent stopped speaking")
     
     # Track if evaluation has been generated
     evaluation_generated = False

@@ -152,60 +152,9 @@ class InterviewTools:
             "message": message
         })
         
-        # Auto-detect candidate name and position from their first response
+        # Auto-detect candidate name from their first response
         if speaker == "candidate" and not self.candidate_name and len(self.transcript) <= 3:
             self.auto_detect_candidate_name(message)
-            self.auto_detect_position(message)
-    
-    def auto_detect_position(self, text: str) -> None:
-        """Try to auto-detect candidate's position from their introduction"""
-        if self.position:  # Already detected
-            return
-            
-        text_lower = text.lower()
-        
-        # Common position keywords
-        position_keywords = {
-            "ui/ux designer": "UI/UX Designer",
-            "ui ux designer": "UI/UX Designer", 
-            "ux designer": "UX Designer",
-            "ui designer": "UI Designer",
-            "designer": "Designer",
-            "frontend developer": "Frontend Developer",
-            "front end developer": "Frontend Developer",
-            "frontend engineer": "Frontend Developer",
-            "backend developer": "Backend Developer",
-            "back end developer": "Backend Developer",
-            "backend engineer": "Backend Developer",
-            "full stack developer": "Full Stack Developer",
-            "fullstack developer": "Full Stack Developer",
-            "software developer": "Software Developer",
-            "software engineer": "Software Engineer",
-            "ai developer": "AI Developer",
-            "ml engineer": "ML Engineer",
-            "machine learning engineer": "ML Engineer",
-            "data scientist": "Data Scientist",
-            "data analyst": "Data Analyst",
-            "devops engineer": "DevOps Engineer",
-            "qa engineer": "QA Engineer",
-            "quality assurance": "QA Engineer",
-            "tester": "QA Tester",
-            "product manager": "Product Manager",
-            "project manager": "Project Manager",
-            "sales executive": "Sales Executive",
-            "business development": "Business Development",
-            "marketing": "Marketing Specialist",
-            "digital marketing": "Digital Marketing",
-            "hr": "HR Professional",
-            "recruiter": "Recruiter",
-        }
-        
-        for keyword, position in position_keywords.items():
-            if keyword in text_lower:
-                self.set_candidate_details(position=position)
-                logger.info(f"Auto-detected position: {position}")
-                print(f"🎯 Position detected: {position}")
-                return
     
     def set_candidate_details(self, name: str = None, position: str = None) -> None:
         """Set candidate name and position for evaluation"""

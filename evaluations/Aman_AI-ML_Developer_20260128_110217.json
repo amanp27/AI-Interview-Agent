@@ -1,0 +1,102 @@
+{
+  "metadata": {
+    "candidate_name": "Aman",
+    "position": "AI/ML Developer",
+    "interview_date": "2026-01-28T11:02:17.673276",
+    "duration_minutes": 3,
+    "evaluator": "SIMA - AI Interview Assistant",
+    "evaluation_timestamp": "2026-01-28T11:02:17.673303"
+  },
+  "candidate_info": {
+    "name": "Aman",
+    "position": "AI/ML Developer",
+    "source": "LiveKit Chat History JSON"
+  },
+  "overall_assessment": {
+    "summary": "The interview with Aman was brief and revealed a lack of preparedness and engagement. The candidate did not provide specific examples of their work or knowledge in AI/ML.",
+    "hire_recommendation": "No Hire",
+    "confidence_level": "High",
+    "reasoning": "Aman was unable to discuss any projects or concepts in AI/ML, indicating a lack of relevant experience and readiness for the role."
+  },
+  "detailed_evaluation": {
+    "technical_skills": {
+      "rating": 1,
+      "assessment": "Aman did not demonstrate any technical skills or knowledge in AI/ML during the interview.",
+      "evidence": [
+        "Candidate stated 'I dont know about ML , I only did AI'",
+        "Candidate did not provide any examples of AI models or applications worked on."
+      ]
+    },
+    "problem_solving": {
+      "rating": 1,
+      "assessment": "The candidate did not engage in any problem-solving discussions or provide examples of tackling challenges.",
+      "evidence": [
+        "Candidate requested to skip discussing the interview assistant project."
+      ]
+    },
+    "communication": {
+      "rating": 2,
+      "assessment": "Aman's communication was minimal and lacked depth, often responding with 'I don't know' or requesting to end the interview.",
+      "evidence": [
+        "Candidate frequently responded with 'I dont know'",
+        "Candidate asked to end the interview early."
+      ]
+    },
+    "experience_relevance": {
+      "rating": 1,
+      "assessment": "Aman did not provide any relevant experience or projects in AI/ML, raising concerns about their suitability for the role.",
+      "evidence": [
+        "Candidate stated 'No i just studied' when asked about AI models or applications."
+      ]
+    },
+    "cultural_fit": {
+      "rating": 2,
+      "assessment": "The candidate's lack of engagement and preparation suggests a potential misalignment with the organizational culture.",
+      "evidence": [
+        "Candidate expressed a desire to end the interview early due to lack of preparation."
+      ]
+    }
+  },
+  "ratings": {
+    "overall_score": 1,
+    "technical_competency": 1,
+    "soft_skills": 2,
+    "experience_match": 1,
+    "growth_potential": 1
+  },
+  "strengths": [
+    "Polite in acknowledging the end of the interview."
+  ],
+  "weaknesses": [
+    "Lack of preparation for the interview.",
+    "Inability to discuss any AI/ML projects or concepts.",
+    "Minimal engagement and communication during the interview."
+  ],
+  "red_flags": [
+    "Candidate did not demonstrate any relevant technical skills or experience.",
+    "Candidate expressed a desire to end the interview early due to lack of preparation."
+  ],
+  "key_highlights": [
+    "Candidate was honest about their lack of preparation."
+  ],
+  "recommendation": {
+    "decision": "No Hire",
+    "next_steps": "No further steps recommended.",
+    "concerns_to_address": [],
+    "role_fit_percentage": 0
+  },
+  "feedback_for_candidate": "Thank you for taking the time to interview with us. It seems that you were not fully prepared for this interview, which is understandable. For future interviews, it may be helpful to prepare specific examples of your work and experiences in AI/ML to discuss. This will allow you to better showcase your skills and knowledge. Additionally, engaging more actively in the conversation can help demonstrate your interest and enthusiasm for the role.",
+  "interview_notes": [
+    {
+      "category": "general",
+      "note": "Interview conducted via LiveKit - 27 conversation turns",
+      "stage": "summary"
+    },
+    {
+      "category": "role_detection",
+      "note": "Candidate role detected as: AI/ML Developer",
+      "stage": "analysis"
+    }
+  ],
+  "transcript_summary": "The interview was brief and lacked depth, with the candidate unable to discuss any specific projects or concepts in AI/ML. The candidate expressed a desire to end the interview early due to a lack of preparation."
+}
