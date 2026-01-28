@@ -91,10 +91,10 @@ graph TB
     B -->|Recording| H[LiveKit Storage]
     B -->|Observability| I[Dashboard]
     
-    style A fill:#e1f5ff
-    style C fill:#ffe1e1
-    style D fill:#e1ffe1
-    style F fill:#fff3e1
+    style A fill:#0077B6
+    style C fill:#0057e9
+    style D fill:#0077B6
+    style F fill:#0057e9
 ```
 
 ---
